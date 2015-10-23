@@ -2,7 +2,7 @@
 # created on Fri Oct 09 14:59:32 2015
 # @author: YeongHwa Kim
 
-import random 
+import random
 from PIL import Image
 import math
 
@@ -10,8 +10,8 @@ import math
 # Definition for the calculating unit functions
 # Input and Output: numbers(float)
 
-def prod(a, b):
-	return float(ab)
+def prod(a, b): # never used!
+	return float(a*b) # would need multiplication symbol
 def cos_pi(a):
 	return float(math.cos(math.pi*a))
 def sin_pi(a):
@@ -29,20 +29,22 @@ def Y(a, b):
 # Output: the functions list composed of only "sin_pi" and "cos_pi" (list)
 def use_for(dep):
 	flist = []
-	
+
 	rn1 = random.random()
 	if dep == 1:
 		if 0<= rn1 <0.5:
 			flist.append("x")
 		else:
 			flist.append("y")
-				
+		# ^^ Would be cleaner to use random.randint or random.choice to choose
+		# an item from a list of options
+
 	else:
 		if 0<= rn1 <0.5:
 			flist.append("x")
 		else:
 			flist.append("y")
-		
+
 		for i in range(dep):
 			rn = random.random()
 			newlist = []
@@ -54,8 +56,8 @@ def use_for(dep):
 				newlist.append("sin_pi")
 				newlist.append(flist)
 				flist = newlist
-				
-	return flist	
+
+	return flist
 
 
 # Definition for random function building function
@@ -64,28 +66,33 @@ def use_for(dep):
 def build_random_function(min_depth, max_depth):
 	dep = random.randint(min_depth, max_depth)
 	flist = [] # Output
-	
+
 	# Make the standard: how to choose the function
 	rn1 = random.random()  # I used random number
-		
+
 	if dep == 1:
 		# only 'x' or 'y' can be a function for each of the 50% percentages
 		if 0<= rn1 <0.5:
 			flist.append("x")
 		else:
 			flist.append("y")
-				
+
 	else:
 		# start from the deepest list, it should be ['x'] or ['y']
 		if 0<= rn1 <0.5:
 			flist.append("x")
 		else:
 			flist.append("y")
+
+		# This isn't quite recursive, because you aren't calling build_random_function
+		# inside of build_random_function. See
+		# https://github.com/sarahwalters/SoftwareDesign/blob/6757e77c223c9c9a9f44886dd807281f752ef039/hw4/random_art.py
+		# for an example of how you might structure this recursively
 		# and then make outer list step by step
 		for i in range(dep):
 			rn = random.random() # make the standard only for this for loop
 			newlist = [] # temporary outer function list
-			
+
 			# 'prod', 'cos_pi', and 'sin_pi' can be a function about 33.33% percentages for each
 			if 0 <= rn < 0.3333:
 				newlist.append("prod")
@@ -95,31 +102,31 @@ def build_random_function(min_depth, max_depth):
 				flist1 = ["a"]
 				flist1[0] = use_for(dep2)
 				flist2 = ["a"]
-				flist2[0] = use_for(dep2)					
+				flist2[0] = use_for(dep2)
 
 				newlist.append(flist1[0])
 				newlist.append(flist2[0])
 				flist = newlist # temporary outer function become the output
-				
+
 			elif 0.3333 <= rn < 0.6666:
 				newlist.append("cos_pi")
 				newlist.append(flist)
 				flist = newlist
-				
-					
+
+
 			else:
 				newlist.append("sin_pi")
 				newlist.append(flist)
 				flist = newlist
-				
-				
-	return flist	
+
+
+	return flist
 
 
 # Definition for evaluating function
 # Input1: list of functions which wants to calculate(list)
 # Input2: input value for x(float)
-# Input3: input value for y(float) 
+# Input3: input value for y(float)
 # Output: mathematically calculated value(float)
 def evaluate_random_function(random_function, x, y):
 	# If outer_function's depth is n, then inner_function's depth is (n-1)
@@ -143,8 +150,8 @@ def evaluate_random_function(random_function, x, y):
 				elif inner_function[0] == "y":
 					inner_function[0] = Y(x, y)
 				in_put = inner_function[0]
-				return cos_pi(in_put)					 
-			else:				
+				return cos_pi(in_put)
+			else:
 				outer_function = inner_function
 				a = evaluate_random_function(outer_function, x, y)
 				return cos_pi(a)
@@ -157,19 +164,19 @@ def evaluate_random_function(random_function, x, y):
 				elif inner_function[0] == "y":
 					inner_function[0] = Y(x, y)
 				in_put = inner_function[0]
-				return sin_pi(in_put)					
+				return sin_pi(in_put)
 			else:
 				outer_function = inner_function
 				a = evaluate_random_function(outer_function, x, y)
 				return sin_pi(a)
-		
-		if random_function[0] == "prod": 
+
+		if random_function[0] == "prod":
 			# "prod" has 2 inner_functions
 			inner_function1 = outer_function[1]
 			inner_function2 = outer_function[2]
 			a = evaluate_random_function(inner_function1, x, y)
 			b = evaluate_random_function(inner_function2, x, y)
-			return a*b
+			return a*b # instead of your prod function?
 
 
 # Definition for interval remapping function
@@ -184,7 +191,7 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
 	b = float(val - input_interval_start)
 	c = float(ouput_interval_end - output_interval_start)
 	d = float(input_interval_end - input_interval_start)
-	lol = a+b*c/d
+	lol = a+b*c/d # what does this variable name mean?
 	return lol
 
 
@@ -196,6 +203,8 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
 funcR = build_random_function(1, 3)
 funcG = build_random_function(2, 4)
 funcB = build_random_function(1, 2)
+
+# How could you generalize everything below this line to make images of any size?
 
 # lists of x, y values in range from -1 to 1
 x_values = []
@@ -226,3 +235,4 @@ for i in range(350):
 	for j in range(350):
 		im.putpixel((i, j),extractRGB(i, j))
 im.save('openplease7.png')
+# ^ how could you let your user choose a filename?
