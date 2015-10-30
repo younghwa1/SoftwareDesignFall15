@@ -7,3 +7,7 @@ def factorial(n):
         return 1
 
 print factorial(3)
+
+#I am learning how to use Github
+#It's really fun
+#But kind of complex
