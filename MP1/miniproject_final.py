@@ -19,22 +19,23 @@ while num<len(lyricslist):
 	num = num + 1
 
 
-a = lyricslist.index('Get "Reflection" Ringtone') + 1
+a = lyricslist.index('* Hands Of Love LyricsMiley Cyrus') + 1
 list1 = lyricslist[a:]
-b = list1.index('Songwriters')
-list2 = list1[:b]
+#b = list1.index('Songwriters')
+#list2 = list1[:b]
 
 
 nm = 0
-while nm<len(list2):
-	string = list2[nm]
-	list2[nm] = string.split()
+while nm<len(list1):
+	string = list1[nm]
+	list1[nm] = string.split()
 	nm = nm + 1
 
 num = 0
 listnew = []
-for i in range(len(list2)):
-	listnew = listnew + list2[i]
+for i in range(len(list1)):
+	listnew = listnew + list1[i]
+print listnew
 
 
 counts = {}
